@@ -48,3 +48,12 @@
 ### 通过Docker Compose 一键启动(Start With Docker Compose)
 
 参考：[Skywalking-Docker Quick Start](https://github.com/JaredTan95/skywalking-docker/blob/master/5.x/quick-start/README.md)
+
+### 方式三 命令启动
+```linux
+docker run -d --name sky-es -p 9200:9200 -p 9300:9300 -e cluster.name=elasticsearch -e discovery.type=single-node  wutang/elasticsearch-shanghai-zone:6.3.2
+
+docker run -d --name sky-oap -p 11800:11800 -p 12800:12800 --link sky-es:elasticsearch duanzonglong/skywalking-oap:6.1.0
+
+docker run -d --name ui -p 8080:8080 --link sky-oap:oap -e collector.ribbon.listOfServers=oap:12800 duanzonglong/skywalking-ui:6.1.0
+```
